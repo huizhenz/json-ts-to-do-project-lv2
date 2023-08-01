@@ -1,35 +1,18 @@
 import React, { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { styled } from "styled-components";
+import * as S from "./StyleTodoCalendar";
 
 const TodoCalendar = () => {
-  const [value, onChange] = useState(new Date());
+  const [today, setToday] = useState(new Date());
 
-  const handleCalendarChange = () => {
-    onChange(value);
+  const onChangeToday = () => {
+    setToday(today);
   };
 
   return (
-    <div>
-      <StyleCalendar
-        locale="en"
-        onChange={handleCalendarChange}
-        value={value}
-      />
-    </div>
+    <S.CalendarBox>
+      <S.StyleCalendar locale="en" onChange={onChangeToday} value={today} />
+    </S.CalendarBox>
   );
 };
 
 export default TodoCalendar;
-
-const StyleCalendar = styled(Calendar)`
-  .react-calendar {
-    width: 300px;
-    max-width: 100%;
-    background: white;
-    border: 1px solid #a0a096;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.125em;
-  }
-`;

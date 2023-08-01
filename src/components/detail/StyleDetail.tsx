@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
-import { BiTrash } from "react-icons/bi";
-import { FiEdit2, FiSave } from "react-icons/fi";
+import { FiTrash2, FiEdit2, FiSave } from "react-icons/fi";
 
 export const DetailContainer = styled.div``;
 
@@ -9,6 +8,7 @@ export const DetailWrapper = styled.div<{ isdone: number }>`
   width: 230px;
   background-color: ${(props) => (props.isdone ? "#FCCEA3" : "#CDE7EA;")};
   border-radius: 15px;
+  margin-left: 25px;
   padding: 30px 20px;
 `;
 
@@ -51,7 +51,7 @@ export const EditButton = styled(FiEdit2)`
   }
 `;
 
-export const DeleteButton = styled(BiTrash)`
+export const DeleteButton = styled(FiTrash2)`
   margin-left: 20px;
   cursor: pointer;
 

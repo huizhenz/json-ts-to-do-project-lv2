@@ -2,16 +2,16 @@ import { styled } from "styled-components";
 
 export const InputContainer = styled.div`
   border-bottom: 1px solid #b8b8b8;
-  padding-bottom: 38px;
+  padding-bottom: 33px;
 `;
 
 export const InputForm = styled.input<{ width: string }>`
-  width: ${(props) => (props.width ? "400px" : "300px")};
+  width: ${(props) => (props.width ? "380px" : "280px")};
   background-color: #d3d3d3;
   border: none;
   border-radius: 5px;
   margin: 0 35px 5px 0;
-  padding: 7px;
+  padding: 10px 7px;
 `;
 
 export const InputButton = styled.button<{ isdone: number }>`
@@ -20,8 +20,8 @@ export const InputButton = styled.button<{ isdone: number }>`
   background-color: ${(props) => (props.isdone ? "#f4b57b" : "#7bc7d0;")};
   border: none;
   border-radius: 5px;
-  margin-left: 7px;
-  padding: 5px 12px;
+  margin-left: 5px;
+  padding: 7px 12px;
   cursor: pointer;
 
   &:hover {

@@ -76,7 +76,7 @@ const Detail: React.FC<DetailProps> = ({ id }) => {
               <S.EditButton size="24" onClick={() => handlerEditTodo(todo)} />
             )}
             <S.DeleteButton
-              size="26"
+              size="24"
               onClick={() => handlerDeleteTodo(todo.id)}
             />
           </S.DetailButtonBox>

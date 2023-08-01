@@ -7,7 +7,7 @@ export const ListContainer = styled.div`
 
 export const ListCategory = styled.div`
   font-size: 36px;
-  /* font-weight: 600; */
+  font-weight: 600;
   margin-bottom: 10px;
 `;
 
@@ -17,7 +17,10 @@ export const ListWrapper = styled.div`
   margin-top: 30px;
 `;
 
-export const ListBox = styled.div``;
+export const ListBox = styled.div`
+  max-height: 450px;
+  overflow-y: auto;
+`;
 
 export const TodayDate = styled.div`
   color: #8d8d8d;
@@ -44,13 +47,16 @@ export const TodoCheckBox = styled.input`
 export const TodoInfo = styled.div``;
 
 export const TodoTitle = styled.div<{ isdone: number }>`
+  font-size: 16px;
   font-weight: 600;
   text-decoration: ${(props) => (props.isdone ? "line-through" : "")};
-  margin-bottom: 5px;
+  margin: 0 170px 5px 0;
 `;
 
 export const TodoContents = styled.div<{ isdone: number }>`
+  font-size: 15px;
   text-decoration: ${(props) => (props.isdone ? "line-through" : "")};
+  margin-right: 20px;
 `;
 
 export const TodoDate = styled.div`

@@ -44,7 +44,7 @@ const Category: React.FC<CategoryProps> = ({ setIsSelected, setIsClicked }) => {
           </S.CategoryCountBox>
         </S.CategoryBox>
       </S.CategoryWrapper>
-      {/* <TodoCalendar /> */}
+      <TodoCalendar />
     </S.CategoryContainer>
   );
 };

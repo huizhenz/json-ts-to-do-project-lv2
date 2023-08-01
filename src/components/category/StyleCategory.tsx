@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 
 export const CategoryContainer = styled.div`
-  width: 230px;
-  height: 700px;
+  width: 250px;
+  height: 100%;
   background-color: #ffffff;
   border-radius: 15px;
   margin: 25px;
@@ -12,7 +12,7 @@ export const CategoryWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #b8b8b8;
-  margin: 0 15px 30px 15px;
+  margin: 0 15px 200px 15px;
   padding: 30px 0 20px 0;
 `;
 

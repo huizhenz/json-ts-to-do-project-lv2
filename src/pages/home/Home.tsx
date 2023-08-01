@@ -8,24 +8,22 @@ const Home = () => {
   const [isClicked, setIsClicked] = useState<string>("");
 
   return (
-    <>
-      <HomeContainer>
-        <Category setIsSelected={setIsSelected} setIsClicked={setIsClicked} />
-        {isSelected === "Working" ? (
-          <TodoList
-            isDone={false}
-            isClicked={isClicked}
-            setIsClicked={setIsClicked}
-          />
-        ) : (
-          <TodoList
-            isDone={true}
-            isClicked={isClicked}
-            setIsClicked={setIsClicked}
-          />
-        )}
-      </HomeContainer>
-    </>
+    <HomeContainer>
+      <Category setIsSelected={setIsSelected} setIsClicked={setIsClicked} />
+      {isSelected === "Working" ? (
+        <TodoList
+          isDone={false}
+          isClicked={isClicked}
+          setIsClicked={setIsClicked}
+        />
+      ) : (
+        <TodoList
+          isDone={true}
+          isClicked={isClicked}
+          setIsClicked={setIsClicked}
+        />
+      )}
+    </HomeContainer>
   );
 };
 
