@@ -1,20 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../input/Input";
+import Detail from "../../pages/Detail";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../redux/config/configStore";
 import { updateTodo } from "../../redux/modules/todoSlice";
-import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 interface HomeProps {
   isDone: boolean;
+  isClicked: string;
+  setIsClicked: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TodoList: React.FC<HomeProps> = ({ isDone }) => {
+const TodoList: React.FC<HomeProps> = ({ isDone, isClicked, setIsClicked }) => {
   // 명시적인 타입 설정
   const { todos } = useAppSelector((state: RootState) => state.todos);
   const dispatch = useAppDispatch();
+
+  // "Done" 카테고리를 클릭할 때 isClicked 상태를 초기화하는 함수
+  const handlerClickDoneCategory = () => {
+    setIsClicked(""); // isClicked 상태를 빈 문자열로 설정하여 초기화
+  };
+
+  const handlerClickDetail = (id: string): void => {
+    setIsClicked(id);
+  };
 
   const handlerUpdateTodo = (id: string): void => {
     dispatch(updateTodo(id));
@@ -59,29 +70,36 @@ const TodoList: React.FC<HomeProps> = ({ isDone }) => {
       <TodayDate>It's {dateFormat}</TodayDate>
       <Input isDone={isDone} />
       <ListWrapper>
-        {todos
-          .filter((todo) => todo.isDone === isDone)
-          .map((todo) => {
-            return (
-              <TodoBox key={todo.id}>
-                <TodoCheckBox
-                  type="checkbox"
-                  checked={todo.isDone}
-                  onClick={() => handlerUpdateTodo(todo.id)}
-                />
-                <TodoInfo>
-                  <TodoTitle isDone={todo.isDone}>{todo.title}</TodoTitle>
-                  <TodoContents isDone={todo.isDone}>
-                    {todo.contents}
-                  </TodoContents>
-                  <TodoDate>{todo.createdAt}</TodoDate>
-                  <Link to={`detail/${todo.id}`}>
-                    <TodoDetailButton isDone={isDone} size="24" />
-                  </Link>
-                </TodoInfo>
-              </TodoBox>
-            );
-          })}
+        <ListBox>
+          {todos
+            .filter((todo) => todo.isDone === isDone)
+            .map((todo) => {
+              return (
+                <TodoBox key={todo.id}>
+                  <TodoCheckBox
+                    type="checkbox"
+                    checked={todo.isDone}
+                    onChange={() => handlerUpdateTodo(todo.id)}
+                  />
+                  <TodoInfo>
+                    <TodoTitle isdone={+todo.isDone}>{todo.title}</TodoTitle>
+                    <TodoContents isdone={+todo.isDone}>
+                      {todo.contents}
+                    </TodoContents>
+                    <TodoDate>{todo.createdAt}</TodoDate>
+                    <TodoDetailButton
+                      isdone={+isDone}
+                      size="24"
+                      onClick={() => {
+                        handlerClickDetail(todo.id);
+                      }}
+                    />
+                  </TodoInfo>
+                </TodoBox>
+              );
+            })}
+        </ListBox>
+        {isClicked ? <Detail id={isClicked} /> : <></>}
       </ListWrapper>
     </ListContainer>
   );
@@ -100,8 +118,12 @@ const ListCategory = styled.div`
 `;
 
 const ListWrapper = styled.div`
-  margin: 30px 0;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
 `;
+
+const ListBox = styled.div``;
 
 const TodayDate = styled.div`
   color: #8d8d8d;
@@ -111,7 +133,7 @@ const TodayDate = styled.div`
 
 const TodoBox = styled.div`
   position: relative;
-  width: 60%;
+  width: 500px;
   display: flex;
   background-color: #ffffff;
   border-radius: 10px;
@@ -127,14 +149,14 @@ const TodoCheckBox = styled.input`
 
 const TodoInfo = styled.div``;
 
-const TodoTitle = styled.div<{ isDone: boolean }>`
+const TodoTitle = styled.div<{ isdone: number }>`
   font-weight: 600;
-  text-decoration: ${(props) => (props.isDone ? "line-through" : "")};
+  text-decoration: ${(props) => (props.isdone ? "line-through" : "")};
   margin-bottom: 5px;
 `;
 
-const TodoContents = styled.div<{ isDone: boolean }>`
-  text-decoration: ${(props) => (props.isDone ? "line-through" : "")};
+const TodoContents = styled.div<{ isdone: number }>`
+  text-decoration: ${(props) => (props.isdone ? "line-through" : "")};
 `;
 
 const TodoDate = styled.div`
@@ -145,13 +167,13 @@ const TodoDate = styled.div`
   font-size: 14px;
 `;
 
-const TodoDetailButton = styled(AiOutlinePlusCircle)<{ isDone: boolean }>`
+const TodoDetailButton = styled(AiOutlinePlusCircle)<{ isdone: number }>`
   position: absolute;
   bottom: 17%;
   right: 2%;
   color: #000000;
 
   &:hover {
-    color: ${(props) => (props.isDone ? "#df9754" : "#62a7ae;")};
+    color: ${(props) => (props.isdone ? "#df9754" : "#62a7ae;")};
   }
 `;

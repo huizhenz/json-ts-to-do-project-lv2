@@ -5,15 +5,24 @@ import { styled } from "styled-components";
 
 const Home = () => {
   const [isSelected, setIsSelected] = useState<string>("Working");
+  const [isClicked, setIsClicked] = useState<string>("");
 
   return (
     <>
       <HomeContainer>
-        <Category isSelected={isSelected} setIsSelected={setIsSelected} />
+        <Category setIsSelected={setIsSelected} setIsClicked={setIsClicked} />
         {isSelected === "Working" ? (
-          <TodoList isDone={false} />
+          <TodoList
+            isDone={false}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+          />
         ) : (
-          <TodoList isDone={true} />
+          <TodoList
+            isDone={true}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+          />
         )}
       </HomeContainer>
     </>

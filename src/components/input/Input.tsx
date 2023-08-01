@@ -92,7 +92,7 @@ const Input: React.FC<InputProps> = ({ isDone }) => {
           onChange={onChangeContents}
           placeholder="Wirte a new to do ..."
         />
-        <InputButton isDone={isDone}>추가</InputButton>
+        <InputButton isdone={+isDone}>추가</InputButton>
       </form>
     </InputContainer>
   );
@@ -102,7 +102,7 @@ export default Input;
 
 const InputContainer = styled.div`
   border-bottom: 1px solid #b8b8b8;
-  padding-bottom: 30px;
+  padding-bottom: 38px;
 `;
 
 const InputForm = styled.input<{ width: string }>`
@@ -114,10 +114,10 @@ const InputForm = styled.input<{ width: string }>`
   padding: 7px;
 `;
 
-const InputButton = styled.button<{ isDone: boolean }>`
+const InputButton = styled.button<{ isdone: number }>`
   color: #ffffff;
   font-weight: 600;
-  background-color: ${(props) => (props.isDone ? "#f4b57b" : "#7bc7d0;")};
+  background-color: ${(props) => (props.isdone ? "#f4b57b" : "#7bc7d0;")};
   border: none;
   border-radius: 5px;
   margin-left: 7px;
@@ -125,6 +125,6 @@ const InputButton = styled.button<{ isDone: boolean }>`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => (props.isDone ? "#df9754" : "#62a7ae;")};
+    background-color: ${(props) => (props.isdone ? "#df9754" : "#62a7ae;")};
   }
 `;

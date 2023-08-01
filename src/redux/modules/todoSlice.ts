@@ -24,9 +24,16 @@ const initialState: TodoState = {
     },
     {
       id: shortid.generate(),
-      title: "피크닉 가기",
-      contents: "블루투스 스피커 꼭 챙기기 ~",
+      title: "피그닉 가기",
+      contents: "블루투스 스피커 꼭 챙겨가자",
       createdAt: "Tuesday, Aug 1, 2023",
+      isDone: false,
+    },
+    {
+      id: shortid.generate(),
+      title: "축구 보러가기",
+      contents: "덕배야 기다려 내가 갈게 ~~~~~",
+      createdAt: "Sunday, Jul 30, 2023",
       isDone: true,
     },
   ],
