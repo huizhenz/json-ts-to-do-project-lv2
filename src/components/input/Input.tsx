@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import shortid from "shortid";
 import { useAppDispatch } from "../../hooks";
 import { addTodo } from "../../redux/modules/todoSlice";
+import { styled } from "styled-components";
 
-const Input = () => {
+interface InputProps {
+  isDone: boolean;
+}
+
+const Input: React.FC<InputProps> = ({ isDone }) => {
   const dispatch = useAppDispatch();
 
   const [title, setTitle] = useState<string>("");
@@ -17,12 +22,37 @@ const Input = () => {
   };
 
   //  날짜 포맷팅
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-  const dateFormat = `${year}.${month}.${day}`;
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = months[today.getMonth()];
+  const date = today.getDate();
+  const day = days[today.getDay()];
+
+  const dateFormat = `${day}, ${month} ${date}, ${year}`;
 
   const handlerAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,14 +76,55 @@ const Input = () => {
   };
 
   return (
-    <div>
+    <InputContainer>
       <form onSubmit={handlerAddTodo}>
-        <input type="text" value={title} onChange={onChangeTitle} />
-        <input type="text" value={contents} onChange={onChangeContents} />
-        <button>추가</button>
+        <InputForm
+          width=""
+          type="text"
+          value={title}
+          onChange={onChangeTitle}
+          placeholder="Wirte a new title ..."
+        />
+        <InputForm
+          width="medium"
+          type="text"
+          value={contents}
+          onChange={onChangeContents}
+          placeholder="Wirte a new to do ..."
+        />
+        <InputButton isDone={isDone}>추가</InputButton>
       </form>
-    </div>
+    </InputContainer>
   );
 };
 
 export default Input;
+
+const InputContainer = styled.div`
+  border-bottom: 1px solid #b8b8b8;
+  padding-bottom: 30px;
+`;
+
+const InputForm = styled.input<{ width: string }>`
+  width: ${(props) => (props.width ? "400px" : "300px")};
+  background-color: #d3d3d3;
+  border: none;
+  border-radius: 5px;
+  margin: 0 35px 5px 0;
+  padding: 7px;
+`;
+
+const InputButton = styled.button<{ isDone: boolean }>`
+  color: #ffffff;
+  font-weight: 600;
+  background-color: ${(props) => (props.isDone ? "#f4b57b" : "#7bc7d0;")};
+  border: none;
+  border-radius: 5px;
+  margin-left: 7px;
+  padding: 5px 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => (props.isDone ? "#df9754" : "#62a7ae;")};
+  }
+`;
