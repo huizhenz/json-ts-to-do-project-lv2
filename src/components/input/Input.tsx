@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import shortid from "shortid";
 import { useAppDispatch } from "../../hooks";
 import { addTodo } from "../../redux/modules/todoSlice";
-import { styled } from "styled-components";
+import * as S from "./StyleInput";
 
 interface InputProps {
   isDone: boolean;
@@ -76,55 +76,26 @@ const Input: React.FC<InputProps> = ({ isDone }) => {
   };
 
   return (
-    <InputContainer>
+    <S.InputContainer>
       <form onSubmit={handlerAddTodo}>
-        <InputForm
+        <S.InputForm
           width=""
           type="text"
           value={title}
           onChange={onChangeTitle}
           placeholder="Wirte a new title ..."
         />
-        <InputForm
+        <S.InputForm
           width="medium"
           type="text"
           value={contents}
           onChange={onChangeContents}
           placeholder="Wirte a new to do ..."
         />
-        <InputButton isdone={+isDone}>추가</InputButton>
+        <S.InputButton isdone={+isDone}>추가</S.InputButton>
       </form>
-    </InputContainer>
+    </S.InputContainer>
   );
 };
 
 export default Input;
-
-const InputContainer = styled.div`
-  border-bottom: 1px solid #b8b8b8;
-  padding-bottom: 38px;
-`;
-
-const InputForm = styled.input<{ width: string }>`
-  width: ${(props) => (props.width ? "400px" : "300px")};
-  background-color: #d3d3d3;
-  border: none;
-  border-radius: 5px;
-  margin: 0 35px 5px 0;
-  padding: 7px;
-`;
-
-const InputButton = styled.button<{ isdone: number }>`
-  color: #ffffff;
-  font-weight: 600;
-  background-color: ${(props) => (props.isdone ? "#f4b57b" : "#7bc7d0;")};
-  border: none;
-  border-radius: 5px;
-  margin-left: 7px;
-  padding: 5px 12px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => (props.isdone ? "#df9754" : "#62a7ae;")};
-  }
-`;

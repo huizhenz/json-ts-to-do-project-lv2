@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Category from "../components/Category";
-import TodoList from "../components/todoList/TodoList";
-import { styled } from "styled-components";
+import Category from "../../components/category/Category";
+import TodoList from "../../components/todoList/TodoList";
+import { HomeContainer } from "./StyleHome";
 
 const Home = () => {
   const [isSelected, setIsSelected] = useState<string>("Working");
@@ -30,10 +30,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const HomeContainer = styled.div`
-  display: flex;
-  background-color: #e5e7eb;
-  border-radius: 15px;
-  margin: 10px 5px;
-`;
