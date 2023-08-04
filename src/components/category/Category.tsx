@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { getTodos } from "../../api/todos";
 import TodoCalendar from "../calendar/TodoCalendar";
 import * as S from "./StyleCategory";
-import loadingImg from "../../assets/loadingImg.gif";
+import loadingImg from "../../assets/loading.gif";
 
 interface CategoryProps {
   setIsSelected: React.Dispatch<React.SetStateAction<string>>;

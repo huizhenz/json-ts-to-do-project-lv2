@@ -4,7 +4,7 @@ import Detail from "../detail/Detail";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Todo, getTodos, updateTodo } from "../../api/todos";
 import * as S from "./StyleTodoList";
-import loadingImg from "../../assets/loadingImg.gif";
+import loadingImg from "../../assets/loading.gif";
 
 interface HomeProps {
   isDone: boolean;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Todo, deleteTodo, getTodos, editTodo } from "../../api/todos";
 import * as S from "./StyleDetail";
-import loadingImg from "../../assets/loadingImg.gif";
+import loadingImg from "../../assets/loading.gif";
 
 interface DetailProps {
   paramsId: number;
