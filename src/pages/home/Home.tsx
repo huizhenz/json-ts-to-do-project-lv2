@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Category from "../../components/category/Category";
 import TodoList from "../../components/todoList/TodoList";
 import { HomeContainer } from "./StyleHome";
 
 const Home = () => {
   const [isSelected, setIsSelected] = useState<string>("Working");
-  const [isClicked, setIsClicked] = useState<string>("");
+  const [isClicked, setIsClicked] = useState<number>(0);
 
   return (
     <HomeContainer>

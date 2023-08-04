@@ -1,29 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
 import Input from "../input/Input";
 import Detail from "../detail/Detail";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { RootState } from "../../redux/config/configStore";
-import { updateTodo } from "../../redux/modules/todoSlice";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Todo, getTodos, updateTodo } from "../../api/todos";
 import * as S from "./StyleTodoList";
+import loadingImg from "../../assets/loadingImg.gif";
 
 interface HomeProps {
   isDone: boolean;
-  isClicked: string;
-  setIsClicked: React.Dispatch<React.SetStateAction<string>>;
+  isClicked: number;
+  setIsClicked: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const TodoList: React.FC<HomeProps> = ({ isDone, isClicked, setIsClicked }) => {
-  // 명시적인 타입 설정
-  const { todos } = useAppSelector((state: RootState) => state.todos);
-  const dispatch = useAppDispatch();
+  const {
+    data: todos = [],
+    isLoading,
+    isError,
+  } = useQuery<Todo[], Error>("todos", getTodos);
 
-  const handlerClickDetail = (id: string): void => {
+  const queryClient = useQueryClient();
+  const updateMutation = useMutation(updateTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  });
+
+  const handlerClickDetail = (id: number): void => {
     setIsClicked(id);
   };
 
-  const handlerUpdateTodo = (id: string): void => {
-    dispatch(updateTodo(id));
+  const handlerUpdateTodo = (todo: Todo): void => {
+    const updatedtodo = { ...todo, isDone: !todo.isDone };
+    updateMutation.mutate(updatedtodo);
+    setIsClicked(0);
   };
+
+  if (isLoading) {
+    return <img src={loadingImg} />;
+  }
+
+  if (isError) {
+    return <h1>오류가 발생했습니다 ...</h1>;
+  }
 
   //  날짜 포맷팅
   const months = [
@@ -73,7 +92,7 @@ const TodoList: React.FC<HomeProps> = ({ isDone, isClicked, setIsClicked }) => {
                   <S.TodoCheckBox
                     type="checkbox"
                     checked={todo.isDone}
-                    onChange={() => handlerUpdateTodo(todo.id)}
+                    onChange={() => handlerUpdateTodo(todo)}
                   />
                   <S.TodoInfo>
                     <S.TodoTitle isdone={+todo.isDone}>
@@ -95,7 +114,7 @@ const TodoList: React.FC<HomeProps> = ({ isDone, isClicked, setIsClicked }) => {
               );
             })}
         </S.ListBox>
-        {isClicked ? <Detail id={isClicked} /> : <></>}
+        {isClicked ? <Detail paramsId={isClicked} /> : <></>}
       </S.ListWrapper>
     </S.ListContainer>
   );

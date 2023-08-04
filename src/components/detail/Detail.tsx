@@ -1,18 +1,29 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { RootState } from "../../redux/config/configStore";
-import { Todo, deleteTodo, editTodo } from "../../redux/modules/todoSlice";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Todo, deleteTodo, getTodos, editTodo } from "../../api/todos";
 import * as S from "./StyleDetail";
+import loadingImg from "../../assets/loadingImg.gif";
 
 interface DetailProps {
-  id: string;
+  paramsId: number;
 }
 
-const Detail: React.FC<DetailProps> = ({ id }) => {
-  const { todos } = useAppSelector((state: RootState) => state.todos);
-  const dispatch = useAppDispatch();
+const Detail: React.FC<DetailProps> = ({ paramsId }) => {
+  const { data: todos = [], isLoading, isError } = useQuery("todos", getTodos);
+  const todo = todos.find((todo) => todo.id === paramsId);
 
-  const todo: Todo | undefined = todos.find((todo) => todo.id === id);
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation(deleteTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+      alert("삭제되었습니다.");
+    },
+  });
+  const editMutation = useMutation(editTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  });
 
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
@@ -25,8 +36,12 @@ const Detail: React.FC<DetailProps> = ({ id }) => {
     setContents(e.target.value);
   };
 
-  const handlerDeleteTodo = (id: string): void => {
-    dispatch(deleteTodo(id));
+  const handlerDeleteTodo = (id: number): void => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      deleteMutation.mutate(id);
+    } else {
+      alert("삭제가 취소되었습니다.");
+    }
   };
 
   const handlerEditTodo = (todo: Todo): void => {
@@ -45,10 +60,18 @@ const Detail: React.FC<DetailProps> = ({ id }) => {
         contents,
       };
 
-      dispatch(editTodo(edtiedTodo));
+      editMutation.mutate(edtiedTodo);
       setIsEdited(false);
     }
   };
+
+  if (isLoading) {
+    return <img src={loadingImg} />;
+  }
+
+  if (isError) {
+    return <h1>오류가 발생했습니다 ...</h1>;
+  }
 
   return (
     <S.DetailContainer>

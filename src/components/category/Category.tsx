@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { useAppSelector } from "../../hooks";
-import { RootState } from "../../redux/config/configStore";
-import * as S from "./StyleCategory";
+import { useQuery } from "react-query";
+import { getTodos } from "../../api/todos";
 import TodoCalendar from "../calendar/TodoCalendar";
+import * as S from "./StyleCategory";
+import loadingImg from "../../assets/loadingImg.gif";
 
 interface CategoryProps {
   setIsSelected: React.Dispatch<React.SetStateAction<string>>;
-  setIsClicked: React.Dispatch<React.SetStateAction<string>>;
+  setIsClicked: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Category: React.FC<CategoryProps> = ({ setIsSelected, setIsClicked }) => {
-  const { todos } = useAppSelector((state: RootState) => state.todos);
+  const { data: todos = [], isLoading, isError } = useQuery("todos", getTodos);
 
   const [filter, setFilter] = useState<boolean>(false);
 
@@ -21,8 +22,16 @@ const Category: React.FC<CategoryProps> = ({ setIsSelected, setIsClicked }) => {
     const { name } = e.currentTarget;
     setIsSelected(name);
     setFilter((prev) => !prev);
-    setIsClicked("");
+    setIsClicked(0);
   };
+
+  if (isLoading) {
+    return <h1>잠시만 기다려주세요 ...</h1>;
+  }
+
+  if (isError) {
+    return <h1>오류가 발생했습니다 ...</h1>;
+  }
 
   return (
     <S.CategoryContainer>

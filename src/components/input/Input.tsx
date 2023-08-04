@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import shortid from "shortid";
-import { useAppDispatch } from "../../hooks";
-import { addTodo } from "../../redux/modules/todoSlice";
+import { useMutation, useQueryClient } from "react-query";
+import { addTodo } from "../../api/todos";
 import * as S from "./StyleInput";
 
 interface InputProps {
@@ -9,8 +8,6 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({ isDone }) => {
-  const dispatch = useAppDispatch();
-
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
 
@@ -20,6 +17,13 @@ const Input: React.FC<InputProps> = ({ isDone }) => {
   const onChangeContents = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContents(e.target.value);
   };
+
+  const queryClient = useQueryClient();
+  const addMutation = useMutation(addTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos");
+    },
+  });
 
   //  날짜 포맷팅
   const months = [
@@ -62,14 +66,13 @@ const Input: React.FC<InputProps> = ({ isDone }) => {
     }
 
     const newTodo = {
-      id: shortid.generate(),
       title,
       contents,
       createdAt: dateFormat,
       isDone: false,
     };
 
-    dispatch(addTodo(newTodo));
+    addMutation.mutate(newTodo);
 
     setTitle("");
     setContents("");

@@ -1,0 +1,25 @@
+{
+  "todos": [
+    {
+      "title": "텐텐이에게 물주기",
+      "contents": "관심과 사랑도 주자",
+      "createdAt": "Friday, Aug 4, 2023",
+      "isDone": false,
+      "id": 1
+    },
+    {
+      "title": "치킨먹기",
+      "contents": "굽네치킨 냠냠",
+      "createdAt": "Friday, Aug 4, 2023",
+      "isDone": true,
+      "id": 2
+    },
+    {
+      "title": "피크닉가기",
+      "contents": "블루투스 스피커도 가져가기",
+      "createdAt": "Friday, Aug 4, 2023",
+      "isDone": false,
+      "id": 3
+    }
+  ]
+}
